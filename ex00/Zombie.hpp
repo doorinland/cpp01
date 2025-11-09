@@ -6,7 +6,7 @@
 /*   By: nora <nora@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/21 13:58:06 by nora              #+#    #+#             */
-/*   Updated: 2025/09/21 22:53:24 by nora             ###   ########.fr       */
+/*   Updated: 2025/11/07 19:59:00 by nora             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ class Zombie
 {
 	public:
 		void announce(void);
+		Zombie();
 		Zombie(std::string name);
 		~Zombie(void);
 	private:

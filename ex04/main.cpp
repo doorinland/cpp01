@@ -14,33 +14,41 @@
 #include <fstream>
 #include <string>
 
-void	read_files(std::ifstream &inFile, std::ofstream &outFile, std::string s1, std::string s2)
+void	replace_in_string(std::string &line, const std::string &s1, const std::string &s2)
 {
-	std::string line;
+	if (s1.empty())
+		return;
+		
 	std::string result;
 	size_t pos = 0;
+	size_t found;
+	
+	while ((found = line.find(s1, pos)) != std::string::npos)
+	{
+		// Add everything before the found position
+		result += line.substr(pos, found - pos);
+		// Add the replacement string
+		result += s2;
+		// Move position past the found string
+		pos = found + s1.length();
+	}
+	// Add the rest of the string
+	result += line.substr(pos);
+	line = result;
+}
+
+void	read_files(std::ifstream &inFile, std::ofstream &outFile, const std::string &s1, const std::string &s2)
+{
+	std::string line;
 	
 	while (std::getline(inFile, line))
 	{
-		result.clear();
-		pos = 0;
-		
-		while ((pos = line.find(s1, pos)) != std::string::npos)
-		{
-			// STEP 1: Add everything BEFORE the found s1 to result
-			result += line.substr(0, pos);
-			// STEP 2: Add the replacement string s2
-			result += s2;
-			// STEP 3: Remove the processed part (including s1) from line
-			line = line.substr(pos + s1.length());
-			pos = 0;
-		}
-		result += line;
-		outFile << result << std::endl;
+		replace_in_string(line, s1, s2);
+		outFile << line << std::endl;
 	}
 }
 
-int	open_files(std::string name_inFile, std::string name_outFile, std::ifstream &inFile, std::ofstream &outFile)
+int	open_files(const std::string &name_inFile, const std::string &name_outFile, std::ifstream &inFile, std::ofstream &outFile)
 {
 	inFile.open(name_inFile.c_str());
 	outFile.open(name_outFile.c_str());
